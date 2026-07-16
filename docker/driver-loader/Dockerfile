@@ -52,4 +52,8 @@ RUN rm -df /lib/modules \
 
 COPY ./docker/driver-loader/docker-entrypoint.sh /
 
+# This container requires root privileges to load kernel drivers into the host.
+# USER is declared explicitly to make this intent clear and satisfy security linting.
+USER root
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
