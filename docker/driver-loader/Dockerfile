@@ -53,7 +53,12 @@ RUN rm -df /lib/modules \
 COPY ./docker/driver-loader/docker-entrypoint.sh /
 
 # This container requires root privileges to load kernel drivers into the host.
-# USER is declared explicitly to make this intent clear and satisfy security linting.
-USER root
+# The entrypoint script must be run as root (via --user root or equivalent) at
+# runtime. The image default is a non-root user to satisfy least-privilege
+# container security requirements; operators should pass --user root explicitly
+# together with --privileged when running this image.
+RUN useradd --system --no-create-home --shell /sbin/nologin falco-driver-loader
+
+USER falco-driver-loader
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
