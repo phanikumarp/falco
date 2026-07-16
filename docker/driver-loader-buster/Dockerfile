@@ -139,4 +139,8 @@ RUN curl -L -o binutils_2.30-22_${TARGETARCH}.deb https://download.falco.org/dep
 
 COPY docker/driver-loader-buster/docker-entrypoint.sh /
 
+RUN groupadd --system falco && useradd --system --gid falco falco
+
+USER falco
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
