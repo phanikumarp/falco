@@ -45,4 +45,11 @@ RUN ARCH=$(uname -m) && \
 # Change the falco config within the container to enable ISO 8601 output.
 ADD config/falco.iso8601_timeformat.yaml /etc/falco/config.d/
 
+# Create a dedicated non-root user and group for Falco, then transfer ownership
+# of the directories Falco needs to read/write at runtime.
+RUN addgroup -S falco && adduser -S -G falco falco && \
+    chown -R falco:falco /etc/falco /usr/bin/falco
+
+USER falco
+
 CMD ["/usr/bin/falco"]
