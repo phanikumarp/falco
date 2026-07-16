@@ -39,4 +39,8 @@ RUN curl -fsSL https://falco.org/repo/falcosecurity-packages.asc \
 # Change the falco config within the container to enable ISO 8601 output.
 ADD config/falco.iso8601_timeformat.yaml /etc/falco/config.d/
 
+RUN groupadd --system falco && useradd --system --no-create-home --gid falco falco
+
+USER falco
+
 CMD ["/usr/bin/falco"]
