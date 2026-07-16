@@ -8,6 +8,8 @@ services:
       - sys_admin
       - sys_resource
       - sys_ptrace
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock
       - /proc:/host/proc:ro
